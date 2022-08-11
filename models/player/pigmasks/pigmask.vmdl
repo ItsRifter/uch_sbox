@@ -875,6 +875,88 @@
 				]
 				default_root_bone_name = ""
 			},
+			{
+				_class = "PhysicsJointList"
+				children = 
+				[
+					{
+						_class = "Folder"
+						name = "Body"
+						children = 
+						[
+							{
+								_class = "PhysicsJointConical"
+								parent_body = "body1"
+								child_body = "body2"
+								anchor_origin = [ 0.0, 0.0, 0.0 ]
+								anchor_angles = [ 0.02, -89.0, -89.0 ]
+								collision_enabled = false
+								friction = 3.0
+								enable_swing_limit = true
+								swing_limit = 20.0
+								swing_offset_angle = [ 0.0, 0.0, 0.0 ]
+								enable_twist_limit = true
+								min_twist_angle = -15.0
+								max_twist_angle = 15.0
+							},
+							{
+								_class = "PhysicsJointConical"
+								parent_body = "body2"
+								child_body = "head"
+								anchor_origin = [ 4.279775, -0.691251, -0.000374 ]
+								anchor_angles = [ 80.811966, 79.315002, 88.460388 ]
+								collision_enabled = false
+								friction = 1.5
+								enable_swing_limit = true
+								swing_limit = 35.0
+								swing_offset_angle = [ 0.0, 0.0, 0.0 ]
+								enable_twist_limit = true
+								min_twist_angle = -25.0
+								max_twist_angle = 25.0
+							},
+						]
+					},
+				]
+			},
+			{
+				_class = "PhysicsShapeList"
+				children = 
+				[
+					{
+						_class = "Folder"
+						name = "PhysicsBody"
+						children = 
+						[
+							{
+								_class = "PhysicsShapeCapsule"
+								parent_bone = "body1"
+								surface_prop = "default"
+								collision_tags = "solid"
+								radius = 15.346311
+								point0 = [ 0.054194, -6.238983, 0.191086 ]
+								point1 = [ 0.062665, -6.233672, 0.191251 ]
+							},
+							{
+								_class = "PhysicsShapeCapsule"
+								parent_bone = "body2"
+								surface_prop = "default"
+								collision_tags = "solid"
+								radius = 8.387579
+								point0 = [ 0.0, 0.0, 0.0 ]
+								point1 = [ 9.113606, -1.777639, -0.058937 ]
+							},
+							{
+								_class = "PhysicsShapeSphere"
+								parent_bone = "head"
+								surface_prop = "default"
+								collision_tags = "solid"
+								radius = 18.97353
+								center = [ 6.661958, -2.022066, -0.000935 ]
+							},
+						]
+					},
+				]
+			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""

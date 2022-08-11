@@ -4,7 +4,7 @@ public class GhostController : WalkController
 {
 	public GhostController()
 	{
-		
+
 	}
 
 	public override void Simulate()
@@ -25,10 +25,13 @@ public class GhostController : WalkController
 		Velocity = Velocity.Approach( 0, Velocity.Length * Time.Delta * 5.0f );
 		WishVelocity = Velocity;
 		BaseVelocity = Vector3.Zero;
-		
+
+		Vector3 flyUp = 0;
+
+		if ( Input.Down( InputButton.Jump ) )
+			flyUp = 135 * Vector3.Up;
+
 		if ( Input.Down( InputButton.Run ) )
-		{
-			Velocity = new Vector3(Velocity.x, Velocity.y, 0);
-		}
+			Velocity = new Vector3( Velocity.x, Velocity.y, flyUp.z );
 	}
 }

@@ -1,0 +1,45 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	data = 
+	{
+		UI = true
+		Volume = 0.45
+		VolumeRandom = 0
+		Pitch = 1
+		PitchRandom = 0
+		Decibels = 70
+		Sounds = 
+		[
+			resource:"sound/raw/gameplay/music/round/music1.vsnd",
+			resource:"sound/raw/gameplay/music/round/music2.vsnd",
+			resource:"sound/raw/gameplay/music/round/music3.vsnd",
+			resource:"sound/raw/gameplay/music/round/music4.vsnd",
+			resource:"sound/raw/gameplay/music/round/music5.vsnd",
+			resource:"sound/raw/gameplay/music/round/music6.vsnd",
+			resource:"sound/raw/gameplay/music/round/music7.vsnd",
+			resource:"sound/raw/gameplay/music/round/music8.vsnd",
+			resource:"sound/raw/gameplay/music/round/music9.vsnd",
+			resource:"sound/raw/gameplay/music/round/music10.vsnd",
+			resource:"sound/raw/gameplay/music/round/music11.vsnd",
+			resource:"sound/raw/gameplay/music/round/music12.vsnd",
+			resource:"sound/raw/gameplay/music/round/music13.vsnd",
+			resource:"sound/raw/gameplay/music/round/music14.vsnd",
+			resource:"sound/raw/gameplay/music/round/music15.vsnd",
+			resource:"sound/raw/gameplay/music/round/music16.vsnd",
+			resource:"sound/raw/gameplay/music/round/music17.vsnd",
+			resource:"sound/raw/gameplay/music/round/music18.vsnd",
+			resource:"sound/raw/gameplay/music/round/music19.vsnd",
+			resource:"sound/raw/gameplay/music/round/music20.vsnd",
+			resource:"sound/raw/gameplay/music/round/music21.vsnd",
+			resource:"sound/raw/gameplay/music/round/music22.vsnd",
+			resource:"sound/raw/gameplay/music/round/music23.vsnd",
+			resource:"sound/raw/gameplay/music/round/music24.vsnd",
+			resource:"sound/raw/gameplay/music/round/music25.vsnd",
+			resource:"sound/raw/gameplay/music/round/music26.vsnd",
+			resource:"sound/raw/gameplay/music/round/music27.vsnd",
+		]
+		SelectionMode = "Random"
+		MaximumDistance = 1143.9335
+		MinimumDistance = 57.196674
+	}
+}

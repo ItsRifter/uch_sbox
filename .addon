@@ -11,11 +11,13 @@
   "CodePath": "/code/",
   "RootNamespace": null,
   "Metadata": {
-    "MapList": [],
+    "MapList": [
+      "facepunch.flatgrass"
+    ],
     "MaxPlayers": 16,
     "MinPlayers": 1,
     "GameNetworkType": "Multiplayer",
-    "MapSelect": "Tagged",
+    "MapSelect": "Unrestricted",
     "RankType": "None",
     "PerMapRanking": false,
     "LeaderboardType": "None",
@@ -25,7 +27,9 @@
         "trigger": "Trigger",
         "ladder": "Ignore",
         "water": "Trigger",
-        "ghost": "Ignore"
+        "ghost": "Ignore",
+        "living": "Collide",
+        "ragdoll": "Ignore"
       },
       "Pairs": [
         {
@@ -72,8 +76,46 @@
           "a": "water",
           "b": "ghost",
           "r": "Ignore"
+        },
+        {
+          "a": "ghost",
+          "b": "ghost"
+        },
+        {
+          "a": "ghost",
+          "b": "living",
+          "r": "Ignore"
+        },
+        {
+          "a": "living",
+          "b": "living",
+          "r": "Collide"
+        },
+        {
+          "a": "solid",
+          "b": "ragdoll",
+          "r": "Collide"
+        },
+        {
+          "a": "ragdoll",
+          "b": "ragdoll",
+          "r": "Ignore"
+        },
+        {
+          "a": "living",
+          "b": "ragdoll",
+          "r": "Ignore"
+        },
+        {
+          "a": "ghost",
+          "b": "ragdoll",
+          "r": "Ignore"
         }
       ]
+    },
+    "GameCategory": "None",
+    "ControlModes": {
+      "Keyboard": true
     }
   }
 }

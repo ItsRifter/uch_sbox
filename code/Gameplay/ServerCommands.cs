@@ -13,9 +13,24 @@ public partial class UCHGame
 		Debug = toggle;
 	}
 
-	[ConCmd.Admin("uch_setteam")]
+	[ConCmd.Admin("uch_game_start")]
+	public static void RoundStartCMD()
+	{
+		if ( !Debug )
+			return;
+
+		UCHCurrent.CurRoundStatus = RoundStatus.Starting;
+
+		UCHCurrent.StartRound();
+	}
+
+
+	[ConCmd.Server("uch_setteam")]
 	public static void DebugTeams(int teamIndex, string target = "")
 	{
+		if ( !Debug )
+			return;
+
 		var player = ConsoleSystem.Caller.Pawn as UCHPawn;
 		
 		if ( player == null )

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-public partial class UCHGame : Sandbox.Game
+public partial class UCHGame : Game
 {
 	public static UCHGame UCHCurrent => Current as UCHGame;
 
@@ -15,7 +15,24 @@ public partial class UCHGame : Sandbox.Game
 
 	public UCHGame()
 	{
+		if(IsServer)
+		{
+			CurRoundStatus = RoundStatus.Idle;
+		}
 
+		if(IsClient)
+		{
+			_ = new UCHHud();
+		}
+	}
+
+	[Event.Hotload()]
+	public void HotloadGame()
+	{
+		if ( IsClient )
+		{
+			_ = new UCHHud();
+		}
 	}
 
 	public override void ClientJoined( Client client )
@@ -25,16 +42,14 @@ public partial class UCHGame : Sandbox.Game
 		var pawn = new UCHPawn();
 		pawn.SetUpGhost();
 		client.Pawn = pawn;
+
+		if ( CanStart() )
+			StartGame();
 	}
 
 	public override void DoPlayerSuicide( Client cl )
 	{
-		var player = cl.Pawn as UCHPawn;
-
-		if ( player.Team == UCHPawn.TeamEnum.Ghost )
-			return;
-
-		base.DoPlayerSuicide( cl );
+		
 	}
 
 	public override void DoPlayerNoclip( Client player )

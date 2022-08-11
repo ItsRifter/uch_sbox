@@ -34,11 +34,25 @@ public partial class UCHPawn : Player
 
 	public virtual void SetUpPlayer()
 	{
-		var spawnpoints = Entity.All.OfType<SpawnPoint>();
-		var point = spawnpoints.OrderBy( x => new Guid() ).FirstOrDefault();
+		Tags.Clear();
 
-		if ( point != null )
-			Transform = point.Transform;
+		Entity spawnpoints = null;
+
+		switch ( Team )
+		{
+			case TeamEnum.Pigmask:
+				spawnpoints = All.OfType<PigmaskSpawnpoint>().OrderBy( x => new Guid() ).FirstOrDefault();
+				break;
+			case TeamEnum.Chimera:
+				spawnpoints = All.OfType<ChimeraSpawnpoint>().OrderBy( x => new Guid() ).FirstOrDefault();
+				break;
+
+		}
+
+		if ( spawnpoints != null && IsServer )
+			Transform = spawnpoints.Transform;
+		else if ( spawnpoints == null )
+			Log.Error( "This map does not support Ultimate Chimera Hunt!" );
 
 		CameraMode = new FirstPersonCamera();
 	}
@@ -55,6 +69,51 @@ public partial class UCHPawn : Player
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
+		EnableAllCollisions = true;
+
+		//SetUpVisibility();
+	}
+
+	private void SetUpVisibility()
+	{
+		if ( !IsServer )
+			return;
+
+		foreach ( Client client in Client.All )
+		{
+			if ( Team == TeamEnum.Ghost )
+			{
+				if ( client.Pawn is UCHPawn ply )
+				{
+					if ( ply.Team == TeamEnum.Ghost )
+						EnableVisibility( To.Single( ply ) );
+					else if (ply.Team != TeamEnum.Ghost)
+						DisableVisibility( To.Single( ply ) );
+				}
+			} 
+			else
+			{
+				if ( client.Pawn is UCHPawn ply )
+				{
+					if ( ply.Team == TeamEnum.Ghost )
+						DisableVisibility( To.Single( ply ) );
+					else if (ply.Team != TeamEnum.Ghost)
+						EnableVisibility( To.Single( ply ) );
+				}
+			}
+		}
+	}
+
+	[ClientRpc]
+	private void DisableVisibility()
+	{
+		EnableDrawing = false;
+	}
+
+	[ClientRpc]
+	private void EnableVisibility()
+	{
+		EnableDrawing = true;
 	}
 
 	public override void Respawn()
@@ -68,6 +127,8 @@ public partial class UCHPawn : Player
 		Game.Current?.MoveToSpawnpoint( this );
 		ResetInterpolation();
 
+		Tags.Clear();
+
 		switch (Team)
 		{
 			case TeamEnum.Ghost:
@@ -77,9 +138,11 @@ public partial class UCHPawn : Player
 				SetUpPigmask();
 				break;
 			case TeamEnum.Chimera:
-				//SetUpChimera();
+				SetUpChimera();
 				break;
 		}
+
+		//SetUpVisibility();
 	}
 
 	public override void TakeDamage( DamageInfo info )
@@ -89,7 +152,17 @@ public partial class UCHPawn : Player
 
 	public override void OnKilled()
 	{
-		base.OnKilled();
+		switch (Team)
+		{
+			case TeamEnum.Pigmask:
+				PigmaskRagdoll(Velocity);
+				SetUpGhostPos( Position );
+				break;
+		}
+
+		SwitchTeam( TeamEnum.Ghost );
+
+		UCHGame.UCHCurrent.CheckRoundStatus();
 	}
 
 	TimeSince timeSinceLastFootstep = 0;
@@ -113,11 +186,15 @@ public partial class UCHPawn : Player
 			.Run();
 
 		if ( !tr.Hit ) return;
-		Log.Info( tr.Surface.ResourceName );
 
-		if (tr.Surface.ResourceName == "concrete")
+		switch(Team)
 		{
-			Sound.FromWorld( "footstep_concrete", tr.EndPosition );
+			case TeamEnum.Pigmask:
+				Sound.FromWorld( "footstep_concrete", tr.EndPosition );
+				break;
+			case TeamEnum.Chimera:
+				Sound.FromWorld( "chimera_step", tr.EndPosition );
+				break;
 		}
 	}
 
@@ -127,6 +204,19 @@ public partial class UCHPawn : Player
 
 		var controller = GetActiveController();
 		controller?.Simulate( cl, this, GetActiveAnimator() );
+
+		TickPlayerUse();
+
+		switch(Team)
+		{
+			case TeamEnum.Pigmask:
+
+				break;
+
+			case TeamEnum.Chimera:
+				SimulateChimera();
+				break;
+		}
 
 	}
 	public override void FrameSimulate( Client cl )

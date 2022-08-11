@@ -15,12 +15,8 @@ public class UCHAnim : PawnAnimator
 
 		SetAnimParameter( "b_grounded", GroundEntity != null );
 		SetAnimParameter( "b_swim", Pawn.WaterLevel > 0.5f );
-
-		if ( Host.IsClient && Client.IsValid() )
-		{
-			SetAnimParameter( "b_voice", Input.Down(InputButton.Voice) );
-			//SetAnimParameter( "voice", Client.TimeSinceLastVoice < 0.5f ? Client.VoiceLevel : 0.0f );
-		}
+		
+		SetAnimParameter( "b_voice", Input.Down(InputButton.Voice) );
 
 		Vector3 aimPos = Pawn.EyePosition + Input.Rotation.Forward * 200;
 		Vector3 lookPos = aimPos;

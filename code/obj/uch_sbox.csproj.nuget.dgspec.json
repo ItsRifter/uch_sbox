@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\uch_sbox\\code\\uch_sbox.csproj": {}
+    "C:\\Users\\d_tho\\Documents\\S&box Projects\\uch_sbox\\code\\uch_sbox.csproj": {}
   },
   "projects": {
-    "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj": {
+    "C:\\Users\\d_tho\\Documents\\S&box Projects\\uch_sbox\\code\\uch_sbox.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj",
-        "projectName": "base",
-        "projectPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj",
+        "projectUniqueName": "C:\\Users\\d_tho\\Documents\\S&box Projects\\uch_sbox\\code\\uch_sbox.csproj",
+        "projectName": "uch_sbox",
+        "projectPath": "C:\\Users\\d_tho\\Documents\\S&box Projects\\uch_sbox\\code\\uch_sbox.csproj",
         "packagesPath": "C:\\Users\\d_tho\\.nuget\\packages\\",
-        "outputPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\obj\\",
+        "outputPath": "C:\\Users\\d_tho\\Documents\\S&box Projects\\uch_sbox\\code\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\d_tho\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -27,7 +27,11 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj": {
+                "projectPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -58,14 +62,14 @@
         }
       }
     },
-    "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\uch_sbox\\code\\uch_sbox.csproj": {
+    "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\uch_sbox\\code\\uch_sbox.csproj",
-        "projectName": "uch_sbox",
-        "projectPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\uch_sbox\\code\\uch_sbox.csproj",
+        "projectUniqueName": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj",
+        "projectName": "base",
+        "projectPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj",
         "packagesPath": "C:\\Users\\d_tho\\.nuget\\packages\\",
-        "outputPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\uch_sbox\\code\\obj\\",
+        "outputPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\d_tho\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -81,11 +85,7 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {
-              "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj": {
-                "projectPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {

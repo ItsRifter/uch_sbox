@@ -14,6 +14,24 @@ public partial class UCHPawn
 
 		Animator = new UCHAnim();
 		Controller = new GhostController();
+
+		Tags.Add( "ghost" );
+
+		PhysicsClear();
+	}
+
+	public void SetUpGhostPos(Vector3 lastPos)
+	{
+		SetModel( "models/player/ghost/standard_ghost.vmdl" );
+
+		Animator = new UCHAnim();
+		Controller = new GhostController();
+
+		Tags.Add( "ghost" );
+
+		PhysicsClear();
+
+		Position = lastPos;
 	}
 
 	public void SetUpFancyGhost()
@@ -24,5 +42,9 @@ public partial class UCHPawn
 
 		Animator = new UCHAnim();
 		Controller = new GhostController();
+
+		Tags.Add( "ghost" );
+
+		PhysicsClear();
 	}
 }

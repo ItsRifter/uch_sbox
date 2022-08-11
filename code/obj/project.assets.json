@@ -17,8 +17,8 @@
   "libraries": {
     "base/1.0.0": {
       "type": "project",
-      "path": "../../base/code/base.csproj",
-      "msbuildProject": "../../base/code/base.csproj"
+      "path": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj",
+      "msbuildProject": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\uch_sbox\\code\\uch_sbox.csproj",
+      "projectUniqueName": "C:\\Users\\d_tho\\Documents\\S&box Projects\\uch_sbox\\code\\uch_sbox.csproj",
       "projectName": "uch_sbox",
-      "projectPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\uch_sbox\\code\\uch_sbox.csproj",
+      "projectPath": "C:\\Users\\d_tho\\Documents\\S&box Projects\\uch_sbox\\code\\uch_sbox.csproj",
       "packagesPath": "C:\\Users\\d_tho\\.nuget\\packages\\",
-      "outputPath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\sbox\\addons\\uch_sbox\\code\\obj\\",
+      "outputPath": "C:\\Users\\d_tho\\Documents\\S&box Projects\\uch_sbox\\code\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\d_tho\\AppData\\Roaming\\NuGet\\NuGet.Config",

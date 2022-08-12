@@ -7,12 +7,17 @@ using Sandbox;
 
 public partial class UCHPawn : Player
 {
+	[Net]
+	public bool CanMove { get; protected set; }
+
 	public enum TeamEnum
 	{
 		Ghost,
 		Pigmask,
 		Chimera
 	}
+
+	Sound curMusic;
 
 	[Net]
 	public TeamEnum Team { get; private set; } = TeamEnum.Ghost;
@@ -32,21 +37,44 @@ public partial class UCHPawn : Player
 		Team = clTeam;
 	}
 
-	public virtual void SetUpPlayer()
+	[ClientRpc]
+	public void PlayMusic( string soundName )
+	{
+		curMusic = PlaySound( soundName ).SetVolume( 0.5f );
+	}
+
+	[ClientRpc]
+	public void PlaySoundOnClient(string soundName)
+	{
+		PlaySound( soundName ).SetVolume( 0.75f );					
+	}
+
+	[ClientRpc]
+	public void StopMusic()
+	{
+		curMusic.Stop();
+	}
+
+	public void SetUpPlayer()
 	{
 		Tags.Clear();
+
+		LifeState = LifeState.Alive;
+		CanMove = true;
 
 		Entity spawnpoints = null;
 
 		switch ( Team )
 		{
+			case TeamEnum.Ghost:
+				spawnpoints = All.OfType<PigmaskSpawnpoint>().OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
+				break;
 			case TeamEnum.Pigmask:
-				spawnpoints = All.OfType<PigmaskSpawnpoint>().OrderBy( x => new Guid() ).FirstOrDefault();
+				spawnpoints = All.OfType<PigmaskSpawnpoint>().OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
 				break;
 			case TeamEnum.Chimera:
-				spawnpoints = All.OfType<ChimeraSpawnpoint>().OrderBy( x => new Guid() ).FirstOrDefault();
+				spawnpoints = All.OfType<ChimeraSpawnpoint>().OrderBy( x => Guid.NewGuid() ).FirstOrDefault();
 				break;
-
 		}
 
 		if ( spawnpoints != null && IsServer )
@@ -116,35 +144,6 @@ public partial class UCHPawn : Player
 		EnableDrawing = true;
 	}
 
-	public override void Respawn()
-	{
-		Host.AssertServer();
-
-		LifeState = LifeState.Alive;
-		Health = 100;
-		Velocity = Vector3.Zero;
-		
-		Game.Current?.MoveToSpawnpoint( this );
-		ResetInterpolation();
-
-		Tags.Clear();
-
-		switch (Team)
-		{
-			case TeamEnum.Ghost:
-				SetUpGhost();
-				break;
-			case TeamEnum.Pigmask:
-				SetUpPigmask();
-				break;
-			case TeamEnum.Chimera:
-				SetUpChimera();
-				break;
-		}
-
-		//SetUpVisibility();
-	}
-
 	public override void TakeDamage( DamageInfo info )
 	{
 		base.TakeDamage( info );
@@ -152,12 +151,23 @@ public partial class UCHPawn : Player
 
 	public override void OnKilled()
 	{
+		LifeState = LifeState.Dead;
+
 		switch (Team)
 		{
 			case TeamEnum.Pigmask:
-				PigmaskRagdoll(Velocity);
+				PigRank = PigRankEnum.Ensign;
+				PigmaskRagdoll(EyeRotation.Forward);
 				SetUpGhostPos( Position );
 				break;
+			case TeamEnum.Chimera:
+				PlaySound( "button_pressed" );
+				ChimeraRagdoll();
+				isDeactivated = true;
+				PhysicsClear();
+				CanMove = false;
+				UCHGame.UCHCurrent.EndRound( UCHGame.WinnerEnum.Pigmask );
+				return;
 		}
 
 		SwitchTeam( TeamEnum.Ghost );
@@ -202,21 +212,24 @@ public partial class UCHPawn : Player
 	{
 		//base.Simulate( cl );
 
-		var controller = GetActiveController();
-		controller?.Simulate( cl, this, GetActiveAnimator() );
-
 		TickPlayerUse();
 
-		switch(Team)
+		switch (Team)
 		{
 			case TeamEnum.Pigmask:
-
+				SimulatePigmask();
 				break;
 
 			case TeamEnum.Chimera:
 				SimulateChimera();
 				break;
 		}
+
+		if ( !CanMove )
+			return;
+
+		var controller = GetActiveController();
+		controller?.Simulate( cl, this, GetActiveAnimator() );
 
 	}
 	public override void FrameSimulate( Client cl )

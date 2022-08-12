@@ -17,6 +17,7 @@ public partial class UCHGame : Game
 	{
 		if(IsServer)
 		{
+			CurRound = 0;
 			CurRoundStatus = RoundStatus.Idle;
 		}
 
@@ -45,11 +46,14 @@ public partial class UCHGame : Game
 
 		if ( CanStart() )
 			StartGame();
+		else
+			pawn.PlayMusic(To.Single(pawn), "intro");
 	}
 
 	public override void DoPlayerSuicide( Client cl )
 	{
-		
+		if ( Debug )
+			base.DoPlayerSuicide( cl );
 	}
 
 	public override void DoPlayerNoclip( Client player )
@@ -74,6 +78,13 @@ public partial class UCHGame : Game
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 	{
+		var player = cl.Pawn as UCHPawn;
+
+		if(player.Team == UCHPawn.TeamEnum.Chimera)
+			UCHCurrent.EndRound( WinnerEnum.Pigmask );
+		else
+			CheckRoundStatus();
+
 		base.ClientDisconnect( cl, reason );
 	}
 }

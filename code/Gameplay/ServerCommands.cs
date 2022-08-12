@@ -36,8 +36,6 @@ public partial class UCHGame
 		if ( player == null )
 			return;
 
-		bool canRespawn = false;
-
 		if ( !string.IsNullOrEmpty( target ) )
 		{
 			UCHPawn targetPlayer = null;
@@ -57,23 +55,20 @@ public partial class UCHGame
 			{
 				case 0:
 					targetPlayer.SwitchTeam( UCHPawn.TeamEnum.Ghost );
-					canRespawn = true;
+					targetPlayer.SetUpGhost();
 					break;
 				case 1:
 					targetPlayer.SwitchTeam( UCHPawn.TeamEnum.Pigmask );
-					canRespawn = true;
+					targetPlayer.SetUpPigmask();
 					break;
 				case 2:
 					targetPlayer.SwitchTeam( UCHPawn.TeamEnum.Chimera );
-					canRespawn = true;
+					targetPlayer.SetUpChimera();
 					break;
 				default:
 					Log.Error( "Invalid team index to set" );
 					break;
 			}
-
-			if ( canRespawn )
-				targetPlayer.Respawn();
 		} 
 		else
 		{
@@ -81,23 +76,20 @@ public partial class UCHGame
 			{
 				case 0:
 					player.SwitchTeam(UCHPawn.TeamEnum.Ghost);
-					canRespawn = true;
+					player.SetUpGhost();
 					break;
 				case 1:
 					player.SwitchTeam( UCHPawn.TeamEnum.Pigmask );
-					canRespawn = true;
+					player.SetUpPigmask();
 					break;
 				case 2:
 					player.SwitchTeam( UCHPawn.TeamEnum.Chimera );
-					canRespawn = true;
+					player.SetUpChimera();
 					break;
 				default:
 					Log.Error( "Invalid team index to set" );
 					break;
 			}
-
-			if (canRespawn)
-				player.Respawn();
 		}
 
 	}

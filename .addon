@@ -28,7 +28,7 @@
         "ladder": "Ignore",
         "water": "Trigger",
         "ghost": "Ignore",
-        "living": "Collide",
+        "living": "Unset",
         "ragdoll": "Ignore"
       },
       "Pairs": [
@@ -83,8 +83,7 @@
         },
         {
           "a": "ghost",
-          "b": "living",
-          "r": "Ignore"
+          "b": "living"
         },
         {
           "a": "living",
@@ -108,12 +107,11 @@
         },
         {
           "a": "ghost",
-          "b": "ragdoll",
-          "r": "Ignore"
+          "b": "ragdoll"
         }
       ]
     },
-    "GameCategory": "None",
+    "GameCategory": "Animals",
     "ControlModes": {
       "Keyboard": true
     }

@@ -24,6 +24,7 @@ public class UCHHud : RootPanel
 		AddChild<VoiceList>();
 		AddChild<VoiceSpeaker>();
 
+		AddChild<RoundTimer>();
 
 		CurHud = this;
 	}

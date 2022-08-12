@@ -22,6 +22,8 @@ public partial class UCHPawn
 
 	public void SetUpGhostPos(Vector3 lastPos)
 	{
+		Tags.Clear();
+
 		SetModel( "models/player/ghost/standard_ghost.vmdl" );
 
 		Animator = new UCHAnim();
@@ -31,6 +33,7 @@ public partial class UCHPawn
 
 		PhysicsClear();
 
+		ResetInterpolation();
 		Position = lastPos;
 	}
 

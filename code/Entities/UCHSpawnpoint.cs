@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Sandbox;
 using SandboxEditor;
 
-[Library("uch_spawnpoint_pigmask")]
-[Title("Pigmask Spawn"), Description("The pigmasks spawnpoint"), Category("Spawnpoints")]
+[Library( "uch_spawnpoint_pigmask" )]
+[Title( "Pigmask Spawn" ), Description( "The pigmasks spawnpoint" ), Category( "Spawnpoints" )]
+[EditorModel( "models/player/pigmasks/pigmask.vmdl" )]
 [HammerEntity]
 public class PigmaskSpawnpoint : SpawnPoint
 {
@@ -16,6 +17,7 @@ public class PigmaskSpawnpoint : SpawnPoint
 
 [Library( "uch_spawnpoint_chimera" )]
 [Title( "Chimera Spawn" ), Description( "The chimera's spawnpoint" ), Category( "Spawnpoints" )]
+[EditorModel( "models/player/chimera/chimera.vmdl" )]
 [HammerEntity]
 public class ChimeraSpawnpoint : SpawnPoint
 {

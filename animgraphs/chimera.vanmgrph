@@ -117,7 +117,7 @@
 				{
 					_class = "CSequenceAnimNode"
 					m_sName = "Unnamed"
-					m_vecPosition = [ -336.0, 128.0 ]
+					m_vecPosition = [ -336.0, 96.0 ]
 					m_nNodeID = 
 					{
 						m_id = 1141486018

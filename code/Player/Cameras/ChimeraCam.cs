@@ -50,7 +50,8 @@ public class ChimeraCam : CameraMode
 
 	public override void BuildInput( InputBuilder input )
 	{
-		rotAngle.yaw = input.ViewAngles.yaw;
+		if( (Local.Pawn as UCHPawn).CanMove )
+			rotAngle.yaw = input.ViewAngles.yaw;
 
 		base.BuildInput( input );
 	}

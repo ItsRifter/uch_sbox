@@ -7,29 +7,94 @@ using Sandbox;
 
 public partial class UCHPawn
 {
+	public enum PigRankEnum
+	{
+		Ensign,
+		Captain,
+		Major,
+		Colonel
+	}
+
+	public PigRankEnum PigRank = PigRankEnum.Ensign;
+
 	public void SetUpPigmask()
 	{
 		SetUpPlayer();
 
-		SetModel( "models/player/pigmasks/pigmask.vmdl" );
-
 		Animator = new UCHAnim();
 		Controller = new WalkController();
 
+		EnableDrawing = true;
 		EnableAllCollisions = true;
-
-		SetupPhysicsFromCapsule( PhysicsMotionType.Keyframed, new Capsule( new Vector3(0, 0, 8), new Vector3(0, 0, 48), 24 ) );
-
+		
 		Tags.Add( "player", "living" );
 
-		//var colBoundMax = Model.Bounds.Maxs;
-		//colBoundMax.y /= 2;
+		SetupPhysicsFromCapsule( PhysicsMotionType.Keyframed, new Capsule( new Vector3(0, 0, 8), new Vector3(0, 0, 42), 24 ) );
 
-		//SetupPhysicsFromOBB( PhysicsMotionType.Keyframed, Model.Bounds.Mins / 2, colBoundMax );
+		switch( PigRank )
+		{
+			case PigRankEnum.Ensign:
+				SetModel( "models/player/pigmasks/pigmask.vmdl" );
+				PlaySoundOnClient( To.Single(this), "ensign_spawn" );
+				break;
+			case PigRankEnum.Captain:
+				SetModel( "models/player/pigmasks/pigmask_captain.vmdl" );
+				PlaySoundOnClient( To.Single( this ), "captain_spawn" );
+				break;
+			case PigRankEnum.Major:
+				SetModel( "models/player/pigmasks/pigmask_major.vmdl" );
+				PlaySoundOnClient( To.Single( this ), "major_spawn" );
+				break;
+			case PigRankEnum.Colonel:
+				SetModel( "models/player/pigmasks/pigmask_colonel.vmdl" );
+				PlaySoundOnClient( To.Single( this ), "colonel_spawn" );
+				break;
+		}
 	}
 
-	private void PigmaskRagdoll( Vector3 velocity )
+	public void SimulatePigmask()
 	{
+		if ( !IsServer )
+			return;
+
+		if ( Input.Pressed( InputButton.PrimaryAttack ) || Input.Pressed(InputButton.Use) )
+		{
+			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 75 )
+				.Ignore(this)
+				.WithoutTags("ghost")
+				.UseHitboxes(true)
+				.Run();
+
+			if(tr.Entity is UCHPawn player )
+			{
+				if ( player.Team == TeamEnum.Chimera && tr.HitboxIndex == 11 && !player.isDeactivated )
+				{
+					player.OnKilled();
+
+					switch( PigRank )
+					{
+						case PigRankEnum.Ensign:
+							PigRank = PigRankEnum.Captain;
+							break;
+
+						case PigRankEnum.Captain:
+							PigRank = PigRankEnum.Major;
+							break;
+
+						case PigRankEnum.Major:
+							PigRank = PigRankEnum.Colonel;
+							break;
+					}
+				}
+			}
+
+		}
+	}
+
+	private void PigmaskRagdoll( Vector3 eyeRot )
+	{
+		PlaySoundOnClient(To.Single(this), "pig_die" );
+
 		var ent = new ModelEntity();
 		ent.Tags.Add( "ragdoll" );
 		ent.Position = Position;
@@ -37,20 +102,14 @@ public partial class UCHPawn
 		ent.UsePhysicsCollision = true;
 		ent.EnableAllCollisions = true;
 
-		//ent.SetupPhysicsFromModel( PhysicsMotionType.Keyframed );
-
 		ent.SetModel( GetModelName() );
 
 		ent.CopyBonesFrom( this );
-		ent.CopyBodyGroups( this );
-		ent.CopyMaterialGroup( this );
-		ent.CopyMaterialOverrides( this );
-		ent.TakeDecalsFrom( this );
-		ent.EnableAllCollisions = true;
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
 		ent.RenderColor = RenderColor;
-		//ent.PhysicsGroup.Velocity = velocity;
 		ent.PhysicsEnabled = true;
+
+		ent.ApplyLocalImpulse( -eyeRot * 1000 + Vector3.Up * 999 );
 
 		Corpse = ent;
 

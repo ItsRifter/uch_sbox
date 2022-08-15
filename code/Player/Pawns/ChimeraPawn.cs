@@ -10,9 +10,14 @@ public partial class UCHPawn
 	TimeSince timeSinceBite;
 
 	public bool isDeactivated;
-
 	public void SetUpChimera()
 	{
+		if ( holdingSaturn.IsValid() )
+		{
+			holdingSaturn.Delete();
+			holdingSaturn = null;
+		}
+
 		SetUpPlayer();
 
 		isDeactivated = false;
@@ -20,7 +25,7 @@ public partial class UCHPawn
 		SetModel( "models/player/chimera/chimera.vmdl" );
 
 		Animator = new UCHAnim();
-		Controller = new WalkController();
+		Controller = new LivingControl( this );
 		CameraMode = new ChimeraCam();
 
 		EnableDrawing = true;
@@ -32,6 +37,9 @@ public partial class UCHPawn
 		SetupPhysicsFromOrientedCapsule( PhysicsMotionType.Keyframed, new Capsule( new Vector3( 12, 0, 28 ), new Vector3( 48, 0, 42 ), 32 ) );
 
 		PlaySoundOnClient( To.Single( this ), "chimera_spawn" );
+
+		MaxStamina = 150.0f;
+		Stamina = MaxStamina;
 	}
 
 	public void ChimeraRagdoll()
@@ -110,8 +118,18 @@ public partial class UCHPawn
 				if ( ent == this )
 					continue;
 
-				if(ent is UCHPawn player && player.Team == TeamEnum.Pigmask && IsServer)
+				if(ent is MrSaturn saturn && IsServer)
+				{
+					saturn.Kill();
+				}
+
+				if ( ent is UCHPawn player && player.Team == TeamEnum.Pigmask && IsServer )
+				{
 					player.OnKilled();
+
+					if(UCHGame.UCHCurrent.CurRoundStatus == UCHGame.RoundStatus.Active)
+						UCHGame.UCHCurrent.TimeSinceGameplay -= 30.0f;
+				}
 			}
 
 			timeSinceBite = 0;

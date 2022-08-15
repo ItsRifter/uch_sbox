@@ -12,12 +12,12 @@
   "RootNamespace": null,
   "Metadata": {
     "MapList": [
-      "facepunch.flatgrass"
+      "rifter.uch_camp"
     ],
     "MaxPlayers": 16,
     "MinPlayers": 1,
     "GameNetworkType": "Multiplayer",
-    "MapSelect": "Unrestricted",
+    "MapSelect": "Tagged",
     "RankType": "None",
     "PerMapRanking": false,
     "LeaderboardType": "None",

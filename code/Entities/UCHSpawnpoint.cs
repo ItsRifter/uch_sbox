@@ -27,6 +27,7 @@ public class ChimeraSpawnpoint : SpawnPoint
 
 [Library( "uch_spawnpoint_mrsaturn" )]
 [Title( "Mr Saturn Spawn" ), Description( "Mr Saturn's spawnpoint" ), Category( "Spawnpoints" )]
+[EditorModel( "models/entity/mrsaturn.vmdl" )]
 [HammerEntity]
 public class MrSaturnSpawnpoint : SpawnPoint
 {

@@ -10,6 +10,12 @@ public partial class UCHPawn : Player
 	[Net]
 	public bool CanMove { get; protected set; }
 
+	public float Stamina;
+
+	public float MaxStamina;
+
+	public TimeSince TimeLastSprinted;
+
 	public enum TeamEnum
 	{
 		Ghost,
@@ -24,7 +30,8 @@ public partial class UCHPawn : Player
 
 	public void SwitchTeam(TeamEnum newTeam)
 	{
-		Log.Info( $"{Client.Name} swapped from {Team} to {newTeam}" );
+		if(UCHGame.UCHCurrent.DebugMode)
+			Log.Info( $"{Client.Name} swapped from {Team} to {newTeam}" );
 		
 		Team = newTeam;
 
@@ -157,6 +164,7 @@ public partial class UCHPawn : Player
 		{
 			case TeamEnum.Pigmask:
 				PigRank = PigRankEnum.Ensign;
+				PlaySoundOnClient("round_timer_add");
 				PigmaskRagdoll(EyeRotation.Forward);
 				SetUpGhostPos( Position );
 				break;
@@ -213,6 +221,12 @@ public partial class UCHPawn : Player
 		//base.Simulate( cl );
 
 		TickPlayerUse();
+
+		if( TimeLastSprinted >= 3.5f && Stamina < MaxStamina )
+		{
+			Stamina += 0.25f;
+			Stamina = Stamina.Clamp( 0, MaxStamina );
+		}
 
 		switch (Team)
 		{

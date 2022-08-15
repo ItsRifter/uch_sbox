@@ -7,6 +7,7 @@ using Sandbox;
 
 public partial class UCHPawn
 {
+
 	public enum PigRankEnum
 	{
 		Ensign,
@@ -17,12 +18,20 @@ public partial class UCHPawn
 
 	public PigRankEnum PigRank = PigRankEnum.Ensign;
 
+	MrSaturn holdingSaturn;
+
 	public void SetUpPigmask()
 	{
+		if( holdingSaturn.IsValid() )
+		{
+			holdingSaturn.Delete();
+			holdingSaturn = null;
+		}
+
 		SetUpPlayer();
 
 		Animator = new UCHAnim();
-		Controller = new WalkController();
+		Controller = new LivingControl(this);
 
 		EnableDrawing = true;
 		EnableAllCollisions = true;
@@ -36,18 +45,42 @@ public partial class UCHPawn
 			case PigRankEnum.Ensign:
 				SetModel( "models/player/pigmasks/pigmask.vmdl" );
 				PlaySoundOnClient( To.Single(this), "ensign_spawn" );
+				MaxStamina = 45.0f;
 				break;
 			case PigRankEnum.Captain:
 				SetModel( "models/player/pigmasks/pigmask_captain.vmdl" );
 				PlaySoundOnClient( To.Single( this ), "captain_spawn" );
+				MaxStamina = 65.0f;
 				break;
 			case PigRankEnum.Major:
 				SetModel( "models/player/pigmasks/pigmask_major.vmdl" );
 				PlaySoundOnClient( To.Single( this ), "major_spawn" );
+				MaxStamina = 85.0f;
 				break;
 			case PigRankEnum.Colonel:
 				SetModel( "models/player/pigmasks/pigmask_colonel.vmdl" );
 				PlaySoundOnClient( To.Single( this ), "colonel_spawn" );
+				MaxStamina = 100.0f;
+				break;
+		}
+
+		Stamina = MaxStamina;
+	}
+
+	public void RankUp()
+	{
+		switch ( PigRank )
+		{
+			case PigRankEnum.Ensign:
+				PigRank = PigRankEnum.Captain;
+				break;
+
+			case PigRankEnum.Captain:
+				PigRank = PigRankEnum.Major;
+				break;
+
+			case PigRankEnum.Major:
+				PigRank = PigRankEnum.Colonel;
 				break;
 		}
 	}
@@ -59,32 +92,28 @@ public partial class UCHPawn
 
 		if ( Input.Pressed( InputButton.PrimaryAttack ) || Input.Pressed(InputButton.Use) )
 		{
+			if( holdingSaturn.IsValid() )
+			{
+				holdingSaturn.Throw(this);
+				holdingSaturn = null;
+				return;
+			}
+
 			var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * 75 )
 				.Ignore(this)
 				.WithoutTags("ghost")
 				.UseHitboxes(true)
 				.Run();
 
+			if ( tr.Entity is MrSaturn saturn )
+				holdingSaturn = saturn.PickUp( this );
+
 			if(tr.Entity is UCHPawn player )
 			{
 				if ( player.Team == TeamEnum.Chimera && tr.HitboxIndex == 11 && !player.isDeactivated )
 				{
 					player.OnKilled();
-
-					switch( PigRank )
-					{
-						case PigRankEnum.Ensign:
-							PigRank = PigRankEnum.Captain;
-							break;
-
-						case PigRankEnum.Captain:
-							PigRank = PigRankEnum.Major;
-							break;
-
-						case PigRankEnum.Major:
-							PigRank = PigRankEnum.Colonel;
-							break;
-					}
+					RankUp();
 				}
 			}
 

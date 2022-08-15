@@ -33,14 +33,22 @@ public partial class UCHGame
 	public float RoundTimer { get; set; }
 
 	[Net]
-	public TimeSince TimeSinceGameplay { get; private set; }
+	public TimeSince TimeSinceGameplay { get; set; }
 
 	[Net]
 	public RoundStatus CurRoundStatus { get; private set; }
 
+	bool mrSaturnSpawn;
+
 	[Event.Tick.Server]
     public void TickGameplay()
 	{
+		if( CurRoundStatus == RoundStatus.Active)
+		{
+			if ( TimeSinceGameplay >= (RoundTimer / 2) && !mrSaturnSpawn )
+				SpawnMrSaturn();
+		}
+
         if ( TimeSinceGameplay >= RoundTimer )
 		{
             switch(CurRoundStatus)
@@ -58,7 +66,22 @@ public partial class UCHGame
 		}
 	}
 
-    public bool CanStart()
+	public void SpawnMrSaturn()
+	{
+		var mrSaturn = new MrSaturn();
+
+		mrSaturn.Transform = All.OfType<MrSaturnSpawnpoint>().OrderBy( x => Guid.NewGuid() ).FirstOrDefault().Transform;
+
+		All.OfType<UCHPawn>().ToList().ForEach( x =>
+		{
+			x.PlaySoundOnClient( To.Single( x ), "saturn_spawn" );
+		} );
+
+		mrSaturn.Spawn();
+		mrSaturnSpawn = true;
+	}
+
+	public bool CanStart()
 	{
 		if ( Client.All.Count >= 2 )
 			return true;
@@ -98,8 +121,9 @@ public partial class UCHGame
 		}
 
         Map.Reset( DefaultCleanupFilter );
+		mrSaturnSpawn = false;
 
-        RoundTimer = 180.0f;
+		RoundTimer = 180.0f;
         TimeSinceGameplay = 0;
 
         CurRoundStatus = RoundStatus.Active;
@@ -148,7 +172,10 @@ public partial class UCHGame
             }
 
 			CurRoundStatus = RoundStatus.MapChange;
-        }
+
+			_ = new MapVoteEntity();
+
+		}
         else
         {
             foreach ( Client cl in Client.All )

@@ -7,6 +7,8 @@ using Sandbox;
 
 public partial class UCHPawn
 {
+	public TimeSince TimeScared;
+	public TimeSince TimeLastWhipped;
 
 	public enum PigRankEnum
 	{
@@ -18,17 +20,20 @@ public partial class UCHPawn
 
 	public PigRankEnum PigRank = PigRankEnum.Ensign;
 
-	MrSaturn holdingSaturn;
+	[Net]
+	public MrSaturn HoldingSaturn { get; protected set; }
 
 	public void SetUpPigmask()
 	{
-		if( holdingSaturn.IsValid() )
+		if( HoldingSaturn.IsValid() )
 		{
-			holdingSaturn.Delete();
-			holdingSaturn = null;
+			HoldingSaturn.Delete();
+			HoldingSaturn = null;
 		}
 
 		SetUpPlayer();
+
+		TimeScared = 10.0f;
 
 		Animator = new UCHAnim();
 		Controller = new LivingControl(this);
@@ -65,6 +70,8 @@ public partial class UCHPawn
 		}
 
 		Stamina = MaxStamina;
+
+		DressPlayer();
 	}
 
 	public void RankUp()
@@ -90,12 +97,38 @@ public partial class UCHPawn
 		if ( !IsServer )
 			return;
 
+		SetAnimParameter( "b_scared", TimeScared < 8.5f );
+
+		if ( TimeScared < 8.5f )
+		{
+			if ( HoldingSaturn.IsValid() )
+			{
+				HoldingSaturn.Drop();
+				HoldingSaturn = null;
+				return;
+			}
+
+			if (CameraMode is not BehindPawnCam )
+			{
+				CameraMode = new BehindPawnCam();
+			}
+			return;
+		} 
+		else
+		{
+			if ( CameraMode is not FirstPersonCamera )
+				CameraMode = new FirstPersonCamera();
+		}
+
 		if ( Input.Pressed( InputButton.PrimaryAttack ) || Input.Pressed(InputButton.Use) )
 		{
-			if( holdingSaturn.IsValid() )
+			if ( TimeLastWhipped < 1.0f )
+				return;
+
+			if( HoldingSaturn.IsValid() )
 			{
-				holdingSaturn.Throw(this);
-				holdingSaturn = null;
+				HoldingSaturn.Throw(this);
+				HoldingSaturn = null;
 				return;
 			}
 
@@ -106,7 +139,7 @@ public partial class UCHPawn
 				.Run();
 
 			if ( tr.Entity is MrSaturn saturn )
-				holdingSaturn = saturn.PickUp( this );
+				HoldingSaturn = saturn.PickUp( this );
 
 			if(tr.Entity is UCHPawn player )
 			{
@@ -122,7 +155,19 @@ public partial class UCHPawn
 
 	private void PigmaskRagdoll( Vector3 eyeRot )
 	{
+		if ( HoldingSaturn.IsValid() )
+		{
+			HoldingSaturn.Drop();
+			HoldingSaturn = null;
+			return;
+		}
+
+		if ( CameraMode is not FirstPersonCamera )
+			CameraMode = new FirstPersonCamera();
+
 		PlaySoundOnClient(To.Single(this), "pig_die" );
+
+		TimeScared = 10.0f;
 
 		var ent = new ModelEntity();
 		ent.Tags.Add( "ragdoll" );

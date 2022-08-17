@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public class ChimeraCam : CameraMode
+public class BehindPawnCam : CameraMode
 {
 	[ConVar.Replicated]
 	public static bool thirdperson_collision { get; set; } = true;

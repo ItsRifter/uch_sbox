@@ -20,6 +20,12 @@ public class MrSaturn : AnimatedEntity
 		Tags.Add( "living" );
 	}
 
+	public void Drop()
+	{
+		SetParent(null);
+		EnableHideInFirstPerson = false;
+	}
+
 	public MrSaturn PickUp(UCHPawn pigmask)
 	{
 		pigmask.PlaySound( "saturn_pickup" );
@@ -37,7 +43,8 @@ public class MrSaturn : AnimatedEntity
 		if ( timeThrown > 0.75f )
 			return;
 
-		DebugOverlay.Sphere(Position, 16, Color.Green);
+		if ( UCHGame.UCHCurrent.CurRoundStatus != UCHGame.RoundStatus.Active )
+			return;
 
 		var ents = FindInSphere( Position, 16 );
 

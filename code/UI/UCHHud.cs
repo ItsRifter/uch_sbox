@@ -24,7 +24,11 @@ public class UCHHud : RootPanel
 		AddChild<VoiceList>();
 		AddChild<VoiceSpeaker>();
 
+		AddChild<Crosshair>();
+
 		AddChild<RoundTimer>();
+
+		AddChild<TeamHud>();
 
 		CurHud = this;
 	}

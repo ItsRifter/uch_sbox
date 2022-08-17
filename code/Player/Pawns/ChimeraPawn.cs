@@ -8,14 +8,18 @@ using Sandbox;
 public partial class UCHPawn
 {
 	TimeSince timeSinceBite;
+	float tailStamina;
+	TimeSince timeLastTail;
+	TimeSince timeLastRoar;
+	TimeSince timeLanded;
 
 	public bool isDeactivated;
 	public void SetUpChimera()
 	{
-		if ( holdingSaturn.IsValid() )
+		if ( HoldingSaturn.IsValid() )
 		{
-			holdingSaturn.Delete();
-			holdingSaturn = null;
+			HoldingSaturn.Delete();
+			HoldingSaturn = null;
 		}
 
 		SetUpPlayer();
@@ -26,7 +30,7 @@ public partial class UCHPawn
 
 		Animator = new UCHAnim();
 		Controller = new LivingControl( this );
-		CameraMode = new ChimeraCam();
+		CameraMode = new BehindPawnCam();
 
 		EnableDrawing = true;
 		EnableAllCollisions = true;
@@ -37,14 +41,21 @@ public partial class UCHPawn
 		SetupPhysicsFromOrientedCapsule( PhysicsMotionType.Keyframed, new Capsule( new Vector3( 12, 0, 28 ), new Vector3( 48, 0, 42 ), 32 ) );
 
 		PlaySoundOnClient( To.Single( this ), "chimera_spawn" );
-
+		
+		tailStamina = 100.0f;
 		MaxStamina = 150.0f;
 		Stamina = MaxStamina;
+
+		ClearClothing();
 	}
 
 	public void ChimeraRagdoll()
 	{
+		Controller = null;
+		EnableAllCollisions = false;
 		EnableDrawing = false;
+
+		CameraMode = new SpectateRagdollCamera();
 
 		var ent = new ModelEntity();
 		ent.Tags.Add( "ragdoll" );
@@ -86,14 +97,85 @@ public partial class UCHPawn
 	{
 		if( CanMove )
 			Rotation = Rotation.FromYaw( EyeRotation.Yaw() );
-		
-		CanMove = timeSinceBite > 0.85f;
+
+		CanMove = timeSinceBite > 0.85f && timeLastRoar > 2.75f;
+
+		if ( Velocity.z < -425.0f && GroundEntity == null && IsServer )
+			timeLanded = 0;
+
+		if ( timeLanded < 0.1f && GroundEntity is UCHPawn pig && pig.Team == TeamEnum.Pigmask && IsServer)
+			pig.OnKilled();
 
 		if ( isDeactivated )
 			return;
 
-		if (Input.Pressed(InputButton.PrimaryAttack) && timeSinceBite > 0.85f && GroundEntity != null && !isDeactivated )
+		if( tailStamina < 100.0f && timeLastTail > 5.0f)
 		{
+			tailStamina += 1.0f;
+			tailStamina = tailStamina.Clamp( 0, 100.0f );
+		}
+
+		if(Input.Pressed(InputButton.Reload) && timeLastTail > 1.5f)
+		{
+			if ( tailStamina <= 0 )
+				return;
+
+			tailStamina -= 50.0f;
+			tailStamina = tailStamina.Clamp( 0, 100.0f );
+
+			var ents = FindInSphere( Position + Rotation.Backward * 65 + Vector3.Up * 25, 64.0f );
+
+			foreach ( var ent in ents )
+			{
+				if ( ent is UCHPawn player )
+				{
+					if ( player == this )
+						continue;
+
+					if ( player.Team == TeamEnum.Pigmask && IsServer )
+					{
+						player.Velocity = player.Position + player.Rotation.Up * 75;
+						player.TimeLastWhipped = 0;
+					}
+				}
+			}
+
+			SetAnimParameter( "b_tail", true );
+			timeLastTail = 0;
+		}
+
+		if(Input.Pressed(InputButton.SecondaryAttack) && timeLastRoar >= 12.5f)
+		{
+			PlaySound( "roar" );
+			SetAnimParameter( "b_roar", true );
+			timeLastRoar = 0;
+		}
+
+		if ( timeLastRoar <= 2.75f )
+		{
+			var ents = FindInSphere( Position, 250.0f );
+
+			foreach ( var ent in ents )
+			{
+				if ( ent is UCHPawn player )
+				{
+					if ( player == this )
+						continue;
+
+					if ( player.Team == TeamEnum.Pigmask && player.TimeScared > 8.5f )
+					{
+						player.PlaySound( "pigmask_scream" );
+						player.TimeScared = 0;
+					}
+				}
+			}
+		}
+
+		if (Input.Pressed(InputButton.PrimaryAttack) && GroundEntity != null && !isDeactivated )
+		{
+			if ( timeLastRoar < 2.75f || timeSinceBite < 0.85f )
+				return;
+
 			SetAnimParameter( "b_bite", true );
 			PlaySound( "bite" );
 
@@ -126,8 +208,9 @@ public partial class UCHPawn
 				if ( ent is UCHPawn player && player.Team == TeamEnum.Pigmask && IsServer )
 				{
 					player.OnKilled();
+					player.PlaySound( "pigmask_death_scream" );
 
-					if(UCHGame.UCHCurrent.CurRoundStatus == UCHGame.RoundStatus.Active)
+					if (UCHGame.UCHCurrent.CurRoundStatus == UCHGame.RoundStatus.Active)
 						UCHGame.UCHCurrent.TimeSinceGameplay -= 30.0f;
 				}
 			}

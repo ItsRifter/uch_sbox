@@ -91,6 +91,24 @@
 						weight = 1.0
 						ignore_rotation = true
 					},
+					{
+						_class = "Attachment"
+						name = "hat"
+						parent_bone = "head"
+						relative_origin = [ -74.260117, 0.000073, 0.0 ]
+						relative_angles = [ -0.0, -90.000061, -90.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "glasses"
+						parent_bone = "head"
+						relative_origin = [ -76.869797, -4.857802, 0.380836 ]
+						relative_angles = [ -0.0, -90.000114, -90.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
 				]
 			},
 			{
@@ -199,7 +217,7 @@
 						source_filename = "models/player/raw/pigmask/pigmask_anims/b_scared.smd"
 						start_frame = -1
 						end_frame = -1
-						framerate = -1.0
+						framerate = 45.0
 						take = 0
 						reverse = false
 					},
@@ -250,7 +268,7 @@
 								source_filename = "models/player/raw/pigmask/pigmask_anims/a_walkN.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 45.0
 								take = 0
 								reverse = false
 							},
@@ -296,7 +314,7 @@
 								source_filename = "models/player/raw/pigmask/pigmask_anims/a_WalkW.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 45.0
 								take = 0
 								reverse = false
 							},
@@ -342,7 +360,7 @@
 								source_filename = "models/player/raw/pigmask/pigmask_anims/a_WalkS.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 45.0
 								take = 0
 								reverse = false
 							},
@@ -388,7 +406,7 @@
 								source_filename = "models/player/raw/pigmask/pigmask_anims/a_WalkE.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 45.0
 								take = 0
 								reverse = false
 							},
@@ -553,7 +571,7 @@
 								source_filename = "models/player/raw/pigmask/pigmask_anims/a_runN.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 60.0
 								take = 0
 								reverse = false
 							},
@@ -599,7 +617,7 @@
 								source_filename = "models/player/raw/pigmask/pigmask_anims/a_runE.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 60.0
 								take = 0
 								reverse = false
 							},
@@ -645,7 +663,7 @@
 								source_filename = "models/player/raw/pigmask/pigmask_anims/a_runW.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 60.0
 								take = 0
 								reverse = false
 							},
@@ -691,7 +709,7 @@
 								source_filename = "models/player/raw/pigmask/pigmask_anims/a_runS.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 60.0
 								take = 0
 								reverse = false
 							},
@@ -1229,6 +1247,26 @@
 						radius = 2.6
 						point0 = [ 6.894, 0.0, 0.0 ]
 						point1 = [ 0.0, 0.0, 0.0 ]
+					},
+				]
+			},
+			{
+				_class = "Skeleton"
+				children = 
+				[
+					{
+						_class = "Bone"
+						name = "ROOT"
+						origin = [ 0.0, 0.0, 0.0 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						do_not_discard = true
+					},
+					{
+						_class = "Bone"
+						name = "hat"
+						origin = [ 3.701538, 0.0, 58.33416 ]
+						angles = [ 0.0, 0.0, 0.0 ]
+						do_not_discard = true
 					},
 				]
 			},

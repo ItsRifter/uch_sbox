@@ -209,7 +209,7 @@
 							{
 								m_id = 1127723918
 							}
-							m_position = [ -176.0, 64.0 ]
+							m_position = [ -176.0, 48.0 ]
 							m_bIsStartState = true
 							m_bIsEndtState = false
 							m_bIsPassthrough = false
@@ -262,7 +262,7 @@
 							{
 								m_nodeID = 
 								{
-									m_id = 1161483630
+									m_id = 1619418674
 								}
 								m_outputID = 
 								{
@@ -294,7 +294,7 @@
 				{
 					_class = "CBlend2DAnimNode"
 					m_sName = "Movement"
-					m_vecPosition = [ -928.0, -144.0 ]
+					m_vecPosition = [ -928.0, -160.0 ]
 					m_nNodeID = 
 					{
 						m_id = 930435099
@@ -423,28 +423,6 @@
 					m_sequenceName = "jump"
 					m_nFrameIndex = 40
 					m_tagSpans = [  ]
-				}
-			},
-			{
-				key = 
-				{
-					m_id = 1161483630
-				}
-				value = 
-				{
-					_class = "CSequenceAnimNode"
-					m_sName = "Unnamed"
-					m_vecPosition = [ -480.0, 16.0 ]
-					m_nNodeID = 
-					{
-						m_id = 1161483630
-					}
-					m_networkMode = "ClientPredicted"
-					m_sNote = ""
-					m_tagSpans = [  ]
-					m_sequenceName = "b_scared"
-					m_playbackSpeed = 1.0
-					m_bLoop = true
 				}
 			},
 			{
@@ -843,6 +821,28 @@
 						m_fMinSpeed = 0.0
 						m_fMaxTension = 500.0
 					}
+				}
+			},
+			{
+				key = 
+				{
+					m_id = 1619418674
+				}
+				value = 
+				{
+					_class = "CSequenceAnimNode"
+					m_sName = "Unnamed"
+					m_vecPosition = [ -480.0, 80.0 ]
+					m_nNodeID = 
+					{
+						m_id = 1619418674
+					}
+					m_networkMode = "ClientPredicted"
+					m_sNote = ""
+					m_tagSpans = [  ]
+					m_sequenceName = "b_scared"
+					m_playbackSpeed = 1.0
+					m_bLoop = true
 				}
 			},
 			{

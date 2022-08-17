@@ -16,6 +16,9 @@ public partial class UCHPawn : Player
 
 	public TimeSince TimeLastSprinted;
 
+	bool updateViewAngle;
+	Angles updatedViewAngle;
+
 	public enum TeamEnum
 	{
 		Ghost,
@@ -25,8 +28,23 @@ public partial class UCHPawn : Player
 
 	Sound curMusic;
 
+	List<AnimatedEntity> ClothingModels;
+
 	[Net]
 	public TeamEnum Team { get; private set; } = TeamEnum.Ghost;
+
+	ClothingContainer clothes = new();
+
+	public UCHPawn()
+	{
+
+	}
+
+	public UCHPawn(Client cl) : this()
+	{
+		clothes.LoadFromClient( cl );
+		ClothingModels = new();
+	}
 
 	public void SwitchTeam(TeamEnum newTeam)
 	{
@@ -62,6 +80,24 @@ public partial class UCHPawn : Player
 		curMusic.Stop();
 	}
 
+	[ClientRpc]
+	public void SetViewAngles( Angles angles )
+	{
+		updateViewAngle = true;
+		updatedViewAngle = angles;
+	}
+
+	public override void BuildInput( InputBuilder input )
+	{
+		base.BuildInput( input );
+
+		if ( updateViewAngle )
+		{
+			updateViewAngle = false;
+			input.ViewAngles = updatedViewAngle;
+		}
+	}
+
 	public void SetUpPlayer()
 	{
 		Tags.Clear();
@@ -85,7 +121,10 @@ public partial class UCHPawn : Player
 		}
 
 		if ( spawnpoints != null && IsServer )
+		{
 			Transform = spawnpoints.Transform;
+			SetViewAngles( To.Single(this), spawnpoints.Rotation.Angles() );
+		}
 		else if ( spawnpoints == null )
 			Log.Error( "This map does not support Ultimate Chimera Hunt!" );
 
@@ -156,9 +195,53 @@ public partial class UCHPawn : Player
 		base.TakeDamage( info );
 	}
 
+	public void ClearClothing()
+	{
+		foreach ( var model in ClothingModels )
+		{
+			model.Delete();
+		}
+
+		ClothingModels.Clear();
+	}
+
+	public void DressPlayer()
+	{
+		ClearClothing();
+
+		foreach ( var item in clothes.Clothing )
+		{
+			if ( item.SlotsUnder == Clothing.Slots.HeadTop )
+			{
+				var hat = new AnimatedEntity( item.Model );
+				hat.SetParent( this, "hat", Transform.Zero );
+
+				hat.LocalScale = 2.0f;
+				hat.LocalPosition = GetAttachment( "hat", false ).Value.Position;
+				hat.EnableHideInFirstPerson = true;
+
+				ClothingModels.Add( hat );
+			}
+
+			if ( item.SlotsUnder == Clothing.Slots.Glasses )
+			{
+				var glasses = new AnimatedEntity( item.Model );
+				glasses.SetParent( this, "glasses", Transform.Zero );
+
+				glasses.LocalScale = 2.0f;
+				glasses.LocalPosition = GetAttachment( "glasses", false ).Value.Position;
+				glasses.EnableHideInFirstPerson = true;
+
+				ClothingModels.Add( glasses );
+			}
+		}
+	}
+
 	public override void OnKilled()
 	{
 		LifeState = LifeState.Dead;
+		
+		ClearClothing();
 
 		switch (Team)
 		{

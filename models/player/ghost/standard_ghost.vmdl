@@ -299,6 +299,25 @@
 						weight = 1.0
 						ignore_rotation = true
 					},
+					{
+						_class = "Attachment"
+						name = "hat"
+						note = "Leave this transform as is since attachment transforms are weird"
+						parent_bone = "head"
+						relative_origin = [ -78.587616, -3.106083, -0.633039 ]
+						relative_angles = [ -0.0, -90.000015, -90.000046 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "glasses"
+						parent_bone = "head"
+						relative_origin = [ -77.540184, -3.080397, -0.497306 ]
+						relative_angles = [ -0.0, -90.000099, -90.000015 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
 				]
 			},
 		]

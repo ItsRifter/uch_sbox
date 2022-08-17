@@ -31,6 +31,9 @@ public class LivingControl : WalkController
 			return SprintSpeed;
 		}
 
+		var ws = Duck.GetWishSpeed();
+		if ( ws >= 0 ) return ws;
+
 		return DefaultSpeed;
 	}
 }

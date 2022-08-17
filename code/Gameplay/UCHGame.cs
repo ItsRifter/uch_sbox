@@ -40,7 +40,8 @@ public partial class UCHGame : Game
 	{
 		base.ClientJoined( client );
 		
-		var pawn = new UCHPawn();
+		var pawn = new UCHPawn(client);
+
 		pawn.SetUpGhost();
 		client.Pawn = pawn;
 

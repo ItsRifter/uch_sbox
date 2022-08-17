@@ -1,0 +1,32 @@
+﻿crosshair {
+    &.pigmask {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        justify-content: center;
+        align-content: center;
+        width: 48px;
+        height: 48px;
+        top: 50%;
+        transform: translateX(-40%) translateY(-50%);
+        background-size: contain;
+        background-position: center;
+    }
+
+    .mrsaturn {
+        position: absolute;
+        background-image: url(ui/crosshair_saturn.png);
+        background-size: auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        transform: translateX(45%) translateY(25%);
+        width: 48px;
+        height: 48px;
+        opacity: 0;
+
+
+        &.hassaturn {
+            opacity: 1;
+        }
+    }
+}

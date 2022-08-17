@@ -13,21 +13,23 @@ public partial class UCHGame
 		Debug = toggle;
 	}
 
-	[ConCmd.Admin( "uch_vote_start" )]
-	public static void StartMapVote()
-	{
-		_ = new MapVoteEntity();
-	}
-
-	[ConCmd.Admin("uch_game_start")]
-	public static void RoundStartCMD()
+	[ConCmd.Admin("uch_mrsaturn")]
+	public static void SpawnSaturn()
 	{
 		if ( !Debug )
 			return;
 
-		UCHCurrent.CurRoundStatus = RoundStatus.Starting;
+		UCHCurrent.SpawnMrSaturn();
+	}
 
-		UCHCurrent.StartRound();
+	[ConCmd.Admin( "uch_vote_start" )]
+	public static void StartMapVote()
+	{
+		UCHCurrent.RoundTimer = 33.0f;
+		UCHCurrent.TimeSinceGameplay = 0;
+		UCHCurrent.CurRoundStatus = RoundStatus.MapChange;
+
+		UCHCurrent.mapVote = new MapVoteEntity();
 	}
 
 	[ConCmd.Server("uch_setteam")]

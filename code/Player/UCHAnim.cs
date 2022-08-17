@@ -7,7 +7,7 @@ public class UCHAnim : PawnAnimator
 
 	public override void Simulate()
 	{
-		var player = Pawn as Player;
+		var player = Pawn as UCHPawn;
 		var idealRotation = Rotation.LookAt( Input.Rotation.Forward.WithZ( 0 ), Vector3.Up );
 
 		DoRotation( idealRotation );
@@ -29,6 +29,9 @@ public class UCHAnim : PawnAnimator
 		SetLookAt( "aim_body", aimPos );
 
 		SetAnimParameter( "b_crouch", Input.Down( InputButton.Duck ) );
+
+		if( player.Team == UCHPawn.TeamEnum.Chimera)
+			SetAnimParameter( "b_running", Input.Down( InputButton.Run ) );
 
 		if ( player != null && player.ActiveChild is BaseCarriable carry )
 		{

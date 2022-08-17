@@ -348,6 +348,53 @@
 							{
 								_class = "AnimFile"
 								name = "run"
+								children = 
+								[
+									{
+										_class = "AnimEvent"
+										event_class = "AE_FOOTSTEP"
+										event_frame = 0
+										event_keys = 
+										{
+											Attachment = ""
+											Foot = "0"
+											Volume = 1.0
+										}
+									},
+									{
+										_class = "AnimEvent"
+										event_class = "AE_FOOTSTEP"
+										event_frame = 2
+										event_keys = 
+										{
+											Attachment = ""
+											Foot = "0"
+											Volume = 1.0
+										}
+									},
+									{
+										_class = "AnimEvent"
+										event_class = "AE_FOOTSTEP"
+										event_frame = 24
+										event_keys = 
+										{
+											Attachment = ""
+											Foot = "0"
+											Volume = 1.0
+										}
+									},
+									{
+										_class = "AnimEvent"
+										event_class = "AE_FOOTSTEP"
+										event_frame = 32
+										event_keys = 
+										{
+											Attachment = ""
+											Foot = "0"
+											Volume = 1.0
+										}
+									},
+								]
 								activity_name = ""
 								activity_weight = 1
 								weight_list_name = ""
@@ -362,7 +409,7 @@
 								source_filename = "models/player/raw/chimera/uchimeragm_anims/run.smd"
 								start_frame = -1
 								end_frame = -1
-								framerate = -1.0
+								framerate = 60.0
 								take = 0
 								reverse = false
 							},
@@ -370,7 +417,7 @@
 					},
 					{
 						_class = "AnimFile"
-						name = "b_tailslap"
+						name = "tailslap"
 						activity_name = ""
 						activity_weight = 1
 						weight_list_name = ""

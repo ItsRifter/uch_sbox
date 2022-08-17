@@ -452,6 +452,33 @@
 						weight = 1.0
 						ignore_rotation = true
 					},
+					{
+						_class = "Attachment"
+						name = "head"
+						parent_bone = "head"
+						relative_origin = [ 0.0, 0.0, 0.0 ]
+						relative_angles = [ 0.0, 0.0, 0.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "hat"
+						parent_bone = "head"
+						relative_origin = [ -74.260117, 0.000073, 0.0 ]
+						relative_angles = [ -0.0, -90.000061, -90.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
+					{
+						_class = "Attachment"
+						name = "glasses"
+						parent_bone = "head"
+						relative_origin = [ -76.869797, -4.857802, 0.380836 ]
+						relative_angles = [ -0.0, -90.000114, -90.0 ]
+						weight = 1.0
+						ignore_rotation = false
+					},
 				]
 			},
 			{

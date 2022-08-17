@@ -23,6 +23,8 @@ public partial class UCHGame
 		MapChange
 	}
 
+	MapVoteEntity mapVote;
+
 	[Net]
     public int CurRound { get; private set; }
 
@@ -62,6 +64,9 @@ public partial class UCHGame
                 case RoundStatus.Post:
                     StartRound();
                     break;
+				case RoundStatus.MapChange:
+					Global.ChangeLevel( mapVote.WinningMap );
+					break;
             }
 		}
 	}
@@ -172,8 +177,10 @@ public partial class UCHGame
             }
 
 			CurRoundStatus = RoundStatus.MapChange;
+			RoundTimer = 33.0f;
+			TimeSinceGameplay = 0;
 
-			_ = new MapVoteEntity();
+			mapVote = new MapVoteEntity();
 
 		}
         else

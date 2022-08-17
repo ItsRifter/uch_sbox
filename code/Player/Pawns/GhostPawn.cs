@@ -18,6 +18,8 @@ public partial class UCHPawn
 		Tags.Add( "ghost" );
 
 		PhysicsClear();
+
+		DressPlayer();
 	}
 
 	public void SetUpGhostPos(Vector3 lastPos)
@@ -35,6 +37,8 @@ public partial class UCHPawn
 
 		ResetInterpolation();
 		Position = lastPos;
+
+		DressPlayer();
 	}
 
 	public void SetUpFancyGhost()

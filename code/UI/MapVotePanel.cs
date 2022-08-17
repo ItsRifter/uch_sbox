@@ -36,16 +36,12 @@ class MapVotePanel : Panel
 
 		foreach ( var package in packages )
 		{
-			Log.Info( package.FullIdent );
-
 			AddMap( package.FullIdent );
 		}
 	}
 
 	private MapIcon AddMap( string fullIdent )
 	{
-		Log.Info( fullIdent );
-
 		var icon = MapIcons.FirstOrDefault( x => x.Ident == fullIdent );
 
 		if ( icon != null )

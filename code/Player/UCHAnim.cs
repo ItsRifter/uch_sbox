@@ -30,8 +30,10 @@ public class UCHAnim : PawnAnimator
 
 		SetAnimParameter( "b_crouch", Input.Down( InputButton.Duck ) );
 
-		if( player.Team == UCHPawn.TeamEnum.Chimera)
+		if( player.Team == UCHPawn.TeamEnum.Chimera  )
+		{
 			SetAnimParameter( "b_running", Input.Down( InputButton.Run ) );
+		}
 
 		if ( player != null && player.ActiveChild is BaseCarriable carry )
 		{

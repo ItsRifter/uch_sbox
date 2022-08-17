@@ -18,7 +18,8 @@ public partial class UCHPawn
 		Colonel
 	}
 
-	public PigRankEnum PigRank = PigRankEnum.Ensign;
+	[Net]
+	public PigRankEnum PigRank { get; private set; }
 
 	[Net]
 	public MrSaturn HoldingSaturn { get; protected set; }
@@ -182,8 +183,6 @@ public partial class UCHPawn
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
 		ent.RenderColor = RenderColor;
 		ent.PhysicsEnabled = true;
-
-		ent.ApplyLocalImpulse( -eyeRot * 1000 + Vector3.Up * 999 );
 
 		Corpse = ent;
 

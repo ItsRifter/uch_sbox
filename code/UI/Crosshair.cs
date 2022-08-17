@@ -23,12 +23,16 @@ public class Crosshair : Panel
 	{
 		base.Tick();
 
+		if ( UCHGame.UCHCurrent.CurRoundStatus != UCHGame.RoundStatus.Active )
+			return;
+
 		var player = Local.Pawn as UCHPawn;
 
 		if ( player == null )
 			return;
 
 		SetClass( "pigmask", player.Team != UCHPawn.TeamEnum.Chimera );
+
 		mrsaturn.SetClass( "hassaturn", player.HoldingSaturn != null );
 
 		if (player.Team == UCHPawn.TeamEnum.Chimera)

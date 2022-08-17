@@ -3,13 +3,54 @@
     align-items: center;
     justify-content: center;
     color: white;
-    width: 100%;
+    left: 50%;
 
-    .text {
-        font-family: Poppins;
-        font-weight: 300;
-        left: 25px;
-        top: 10px;
-        font-size: 32px;
+    .panel {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top;
+        width: 600px;
+        height: 72px;
+        transform: translateX(-50%);
+
+        .timer {
+            font-family: Poppins;
+            font-weight: 300;
+            top: -10px;
+            font-size: 48px;
+            text-shadow: 2px, 2px, 0px, black;
+            left: 20%;
+            width: 100px;
+        }
+
+        .round {
+            font-family: Poppins;
+            font-weight: 300;
+            top: -5px;
+            font-size: 36px;
+            text-shadow: 2px, 2px, 0px, black;
+            left: 47.5%;
+            width: 100px;
+        }
+
+        &.ensign {
+            background-image: url(ui/pighud_ensign_timer.png);
+        }
+
+        &.captain {
+            background-image: url(ui/pighud_captain_timer.png);
+        }
+
+        &.major {
+            background-image: url(ui/pighud_major_time.png);
+        }
+
+        &.colonel {
+            background-image: url(ui/pighud_time.png);
+        }
+
+        &.chimera {
+            background-image: url(ui/chimera_time.png);
+        }
     }
 }

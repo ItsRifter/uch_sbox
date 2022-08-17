@@ -1,6 +1,9 @@
 ﻿crosshair {
+    opacity: 0;
+
     &.pigmask {
         position: absolute;
+        opacity: 1;
         top: 50%;
         left: 50%;
         justify-content: center;

@@ -24,8 +24,8 @@
 	</ItemGroup>
 
   <PropertyGroup>
-	<OutputPath>../.vs/output/</OutputPath>
-	<DocumentationFile>../.vs/output/uch_sbox.xml</DocumentationFile>
+	<OutputPath>D:\Program Files (x86)\Steam\steamapps\common\sbox/.vs/output/</OutputPath>
+	<DocumentationFile>D:\Program Files (x86)\Steam\steamapps\common\sbox/.vs/output/uch_sbox.xml</DocumentationFile>
 	<RootNamespace>Sandbox</RootNamespace>
 	<Nullable>disable</Nullable>
   </PropertyGroup>

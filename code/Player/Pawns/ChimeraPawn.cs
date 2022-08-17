@@ -134,7 +134,8 @@ public partial class UCHPawn
 
 					if ( player.Team == TeamEnum.Pigmask && IsServer )
 					{
-						player.Velocity = player.Position + player.Rotation.Up * 75;
+						player.Velocity = Vector3.Up * 2500;
+						player.Velocity = EyeRotation.Backward * 1500;
 						player.TimeLastWhipped = 0;
 					}
 				}
@@ -164,7 +165,7 @@ public partial class UCHPawn
 
 					if ( player.Team == TeamEnum.Pigmask && player.TimeScared > 8.5f )
 					{
-						player.PlaySound( "pigmask_scream" );
+						Sound.FromWorld( "pigmask_scream", player.Position );
 						player.TimeScared = 0;
 					}
 				}
@@ -208,7 +209,8 @@ public partial class UCHPawn
 				if ( ent is UCHPawn player && player.Team == TeamEnum.Pigmask && IsServer )
 				{
 					player.OnKilled();
-					player.PlaySound( "pigmask_death_scream" );
+					player.Corpse.Velocity = Vector3.Up * 5000 + Vector3.Random * 7500;
+					Sound.FromWorld("pigmask_death_scream", player.Position);
 
 					if (UCHGame.UCHCurrent.CurRoundStatus == UCHGame.RoundStatus.Active)
 						UCHGame.UCHCurrent.TimeSinceGameplay -= 30.0f;

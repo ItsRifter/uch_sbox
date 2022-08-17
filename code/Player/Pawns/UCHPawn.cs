@@ -37,7 +37,7 @@ public partial class UCHPawn : Player
 
 	public UCHPawn()
 	{
-
+		PigRank = PigRankEnum.Ensign;
 	}
 
 	public UCHPawn(Client cl) : this()
@@ -252,7 +252,7 @@ public partial class UCHPawn : Player
 				SetUpGhostPos( Position );
 				break;
 			case TeamEnum.Chimera:
-				PlaySound( "button_pressed" );
+				Sound.FromWorld( "button_pressed", Position + Vector3.Up * 15 );
 				ChimeraRagdoll();
 				isDeactivated = true;
 				PhysicsClear();
